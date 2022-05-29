@@ -21,10 +21,10 @@ const App = () => {
     <div className={AppStyles}>
       <Router>
         <div className="Container">
-        <Routes>
-          <Route path="/" element={<Products />} />
-          <Route path="/admin" element={<Admin />} />
-        </Routes>
+          <Routes>
+            <Route path="/" element={<Products />} />
+            <Route path="/admin" element={<Admin />} />
+          </Routes>
         </div>
       </Router>
     </div>
