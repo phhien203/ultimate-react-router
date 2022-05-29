@@ -7,6 +7,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Admin from "./Admin/Admin";
+import Nav from "./Common/Nav";
 import Products from "./Products/Products";
 
 const AppStyles = css`
@@ -26,6 +27,7 @@ const App = () => {
     <div className={AppStyles}>
       <Router>
         <div className="Container">
+          <Nav />
           <Routes>
             <Route path="/" element={<Products />} />
             <Route path="/admin" element={<Admin />} />
