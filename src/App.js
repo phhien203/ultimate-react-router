@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Admin from "./Admin/Admin";
 import Nav from "./Common/Nav";
+import ProtectedRoute from "./Common/ProtectedRoute";
 import Products from "./Products/Products";
 
 const AppStyles = css`
@@ -30,7 +31,12 @@ const App = () => {
           <Nav />
           <Routes>
             <Route path="/*" element={<Products />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route
+              path="/admin"
+              element={<ProtectedRoute authenticated={false} redirectTo="/the-wedge" />}
+            >
+              <Route path="" element={<Admin />} />
+            </Route>
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
