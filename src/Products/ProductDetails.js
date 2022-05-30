@@ -1,6 +1,6 @@
 import { css } from "@emotion/css";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { retrieveProduct } from "./ProductsService";
 
 const ProductDetailsStyles = css`
@@ -33,12 +33,18 @@ const ProductDetailsStyles = css`
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
     (async () => {
-      const product = await retrieveProduct(id);
-      setProduct(product);
+      try {
+        const product = await retrieveProduct(id);
+        setProduct(product);
+      } catch (e) {
+        console.warn(e);
+        navigate("/");
+      }
     })();
   }, [id]);
 
