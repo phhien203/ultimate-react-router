@@ -1,14 +1,8 @@
 import { css } from "@emotion/css";
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Navigate, useRoutes } from "react-router-dom";
 import Admin from "./Admin/Admin";
 import Nav from "./Common/Nav";
-import ProtectedRoute from "./Common/ProtectedRoute";
 import Products from "./Products/Products";
 
 const AppStyles = css`
@@ -24,25 +18,37 @@ const AppStyles = css`
 `;
 
 const App = () => {
+  const [authenticated] = useState(true);
+
+  const routes = useRoutes([
+    {
+      path: "/*",
+      element: <Products />,
+    },
+    {
+      path: "/admin/*",
+      element: authenticated ? <Admin /> : <Navigate to="/" replace />,
+    },
+    {
+      path: "*",
+      element: <Navigate to="/" />,
+    },
+  ]);
+
+  return routes;
+};
+
+const AppWrapper = () => {
   return (
     <div className={AppStyles}>
       <Router>
         <div className="Container">
           <Nav />
-          <Routes>
-            <Route path="/*" element={<Products />} />
-            <Route
-              path="/admin"
-              element={<ProtectedRoute authenticated={false} redirectTo="/the-wedge" />}
-            >
-              <Route path="" element={<Admin />} />
-            </Route>
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
+          <App />
         </div>
       </Router>
     </div>
   );
 };
 
-export default App;
+export default AppWrapper;
