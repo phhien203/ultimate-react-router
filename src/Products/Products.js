@@ -1,9 +1,10 @@
 import { css } from "@emotion/css";
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { lazy } from "react";
+import { Route, Routes } from "react-router-dom";
+import Loadable from "../Common/Loadable";
 
-import ProductsIndex from "./ProductsIndex";
-import ProductDetails from "./ProductDetails";
+const ProductsIndex = Loadable(lazy(() => import("./ProductsIndex")));
+const ProductDetails = Loadable(lazy(() => import("./ProductDetails")));
 
 const ProductsStyles = css`
   display: flex;

@@ -1,9 +1,11 @@
 import { css } from "@emotion/css";
-import React, { useState } from "react";
+import React, { lazy, useState } from "react";
 import { BrowserRouter as Router, Navigate, useRoutes } from "react-router-dom";
-import Admin from "./Admin/Admin";
+import Loadable from "./Common/Loadable";
 import Nav from "./Common/Nav";
-import Products from "./Products/Products";
+
+const Products = Loadable(lazy(() => import("./Products/Products")));
+const Admin = Loadable(lazy(() => import("./Admin/Admin")));
 
 const AppStyles = css`
   margin: 50px auto;
