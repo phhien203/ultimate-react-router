@@ -7,6 +7,37 @@ const ProductEditStyles = css`
   background: #2a2c37;
   border-radius: 6px;
   padding: 15px;
+  .ProductEdit {
+    &-Input {
+      width: 100%;
+      border: 1px solid transparent;
+      color: #fff;
+      background: #1d1e26;
+      padding: 10px 15px;
+      margin-bottom: 5px;
+      border-radius: 6px;
+      outline: 0;
+      &:focus {
+        border-color: #50fa7b;
+      }
+    }
+
+    &-Textarea {
+      min-height: 80px;
+      resize: none;
+    }
+
+    &-Button {
+      border: 2px solid #50fa7b;
+      color: #50fa7b;
+      background: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+  }
 `;
 
 const ProductEdit = () => {
@@ -66,11 +97,15 @@ const ProductEdit = () => {
         className="ProductEdit-Input"
         value={formValue.price}
         onChange={({ target }) =>
-          updateField({ name: target.name, value: parseInt(target.value, 10) })
+          updateField({
+            name: target.name,
+            value: parseInt(target.value, 10) || 0,
+          })
         }
       />
       <textarea
         name="description"
+        placeholder="Description"
         rows="5"
         className="ProductEdit-Input ProductEdit-Textarea"
         value={formValue.description}
@@ -90,8 +125,8 @@ const ProductEdit = () => {
 
 export default ProductEdit;
 // {
-  // "id": "big-cheese",
-  // "name": "Big Cheese",
-  // "description": "Large burger, all the cheese.",
-  // "price": 749
+// "id": "big-cheese",
+// "name": "Big Cheese",
+// "description": "Large burger, all the cheese.",
+// "price": 749
 // },
