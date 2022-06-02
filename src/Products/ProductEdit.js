@@ -1,5 +1,6 @@
 import { css } from "@emotion/css";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { createProduct } from "./ProductsService";
 
 const ProductEditStyles = css`
@@ -41,6 +42,7 @@ const ProductEditStyles = css`
 `;
 
 const ProductEdit = () => {
+  const navigate = useNavigate();
   const [formValue, setFormValue] = useState(null);
 
   useEffect(() => {
@@ -61,8 +63,8 @@ const ProductEdit = () => {
 
   const handleCreate = async () => {
     try {
-      const created = await createProduct(formValue);
-      console.log(created);
+      const { id } = await createProduct(formValue);
+      navigate(`/admin/${id}`);
     } catch (err) {
       console.warn(err);
     }
