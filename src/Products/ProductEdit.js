@@ -1,7 +1,12 @@
 import { css } from "@emotion/css";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createProduct, retrieveProduct, updateProduct } from "./ProductsService";
+import {
+  createProduct,
+  deleteProduct,
+  retrieveProduct,
+  updateProduct,
+} from "./ProductsService";
 
 const ProductEditStyles = css`
   color: #fff;
@@ -91,6 +96,19 @@ const ProductEdit = () => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm(`Really delete ${formValue.name}?`)) {
+      return;
+    }
+
+    try {
+      await deleteProduct(formValue.id);
+      navigate("/admin");
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
   if (formValue === null) {
     return <div>Loading...</div>;
   }
@@ -149,6 +167,14 @@ const ProductEdit = () => {
         onClick={handleUpdate}
       >
         Update
+      </button>
+
+      <button
+        type="button"
+        className="ProductEdit-Button"
+        onClick={handleDelete}
+      >
+        Delete
       </button>
     </form>
   );
