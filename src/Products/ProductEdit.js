@@ -46,18 +46,21 @@ const ProductEditStyles = css`
   }
 `;
 
-const ProductEdit = () => {
+const ProductEdit = ({ isEdit }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [formValue, setFormValue] = useState(null);
 
   useEffect(() => {
-    setFormValue({
-      id: "",
-      name: "",
-      price: 0,
-      description: "",
-    });
+    if (!isEdit) {
+      setFormValue({
+        id: "",
+        name: "",
+        price: 0,
+        description: "",
+      });
+      return;
+    }
 
     (async () => {
       try {
@@ -153,29 +156,35 @@ const ProductEdit = () => {
         onChange={({ target }) => updateField(target)}
       />
 
-      <button
-        type="button"
-        className="ProductEdit-Button"
-        onClick={handleCreate}
-      >
-        Create
-      </button>
+      {!isEdit && (
+        <button
+          type="button"
+          className="ProductEdit-Button"
+          onClick={handleCreate}
+        >
+          Create
+        </button>
+      )}
 
-      <button
-        type="button"
-        className="ProductEdit-Button"
-        onClick={handleUpdate}
-      >
-        Update
-      </button>
+      {isEdit && (
+        <button
+          type="button"
+          className="ProductEdit-Button"
+          onClick={handleUpdate}
+        >
+          Update
+        </button>
+      )}
 
-      <button
-        type="button"
-        className="ProductEdit-Button"
-        onClick={handleDelete}
-      >
-        Delete
-      </button>
+      {isEdit && (
+        <button
+          type="button"
+          className="ProductEdit-Button"
+          onClick={handleDelete}
+        >
+          Delete
+        </button>
+      )}
     </form>
   );
 };
