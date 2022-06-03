@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 
 import ProductsIndex from "../Products/ProductsIndex";
-import ProductDetails from "../Products/ProductDetails";
 import ProductEdit from "../Products/ProductEdit";
 import { css } from "@emotion/css";
 
@@ -34,7 +33,7 @@ const Admin = () => (
     <Routes>
       <Route path="/" element={<ProductsIndex />} />
       <Route path="new" element={<ProductEdit />} />
-      <Route path=":id" element={<ProductDetails />} />
+      <Route path=":id" element={<ProductEdit />} />
     </Routes>
   </div>
 );

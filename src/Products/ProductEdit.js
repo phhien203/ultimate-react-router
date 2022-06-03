@@ -1,7 +1,7 @@
 import { css } from "@emotion/css";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { createProduct } from "./ProductsService";
+import { useNavigate, useParams } from "react-router-dom";
+import { createProduct, retrieveProduct } from "./ProductsService";
 
 const ProductEditStyles = css`
   color: #fff;
@@ -43,6 +43,7 @@ const ProductEditStyles = css`
 
 const ProductEdit = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [formValue, setFormValue] = useState(null);
 
   useEffect(() => {
@@ -52,7 +53,17 @@ const ProductEdit = () => {
       price: 0,
       description: "",
     });
-  }, []);
+
+    (async () => {
+      try {
+        const product = await retrieveProduct(id);
+        setFormValue(product);
+      } catch (err) {
+        console.warn(err);
+        navigate("/admin", { replace: true });
+      }
+    })();
+  }, [id]);
 
   const updateField = ({ name, value }) => {
     setFormValue({
