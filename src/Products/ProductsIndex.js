@@ -39,19 +39,44 @@ const ProductsIndex = () => {
   }, []);
 
   useEffect(() => {
-    console.log(Object.fromEntries(searchParams));
     (async () => {
       const data = await listProducts();
-      setProducts(data);
+      const params = Object.fromEntries([...searchParams]);
+      sortProductsFromParams(data, params);
     })();
   }, []);
+
+  const sortProductsFromParams = (data, params) => {
+    if (!Object.keys(params).length) {
+      setProducts(data);
+      return;
+    }
+
+    const sorted = [...data].sort((a, b) => {
+      const { sort, order } = params;
+
+      switch (order) {
+        case "ascending": {
+          return a[sort] > b[sort] ? 1 : -1;
+        }
+        case "descending": {
+          return a[sort] < b[sort] ? 1 : -1;
+        }
+        default: {
+          return 0;
+        }
+      }
+    });
+
+    setProducts(sorted);
+  };
 
   const updateParams = (e) => {
     const { name, value } = e.target;
     const currentParams = Object.fromEntries(searchParams);
     const newParams = { ...currentParams, [name]: value };
-    console.log(newParams);
     setSearchParams(newParams);
+    sortProductsFromParams(products, newParams);
   };
 
   if (products === null) {
@@ -63,7 +88,6 @@ const ProductsIndex = () => {
       <div className="ProductIndex-Radios">
         <span>Sort: </span>
         <label>
-          Name
           <input
             type="radio"
             name="sort"
@@ -71,10 +95,10 @@ const ProductsIndex = () => {
             defaultChecked={searchParams.get("sort") === "name"}
             onChange={updateParams}
           />
+          Name
         </label>
 
         <label>
-          Price
           <input
             type="radio"
             name="sort"
@@ -82,13 +106,13 @@ const ProductsIndex = () => {
             defaultChecked={searchParams.get("sort") === "price"}
             onChange={updateParams}
           />
+          Price
         </label>
       </div>
 
       <div className="ProductIndex-Radios">
         <span>Order: </span>
         <label>
-          Ascending
           <input
             type="radio"
             name="order"
@@ -96,10 +120,10 @@ const ProductsIndex = () => {
             defaultChecked={searchParams.get("order") === "ascending"}
             onChange={updateParams}
           />
+          Ascending
         </label>
 
         <label>
-          Descending
           <input
             type="radio"
             name="order"
@@ -107,6 +131,7 @@ const ProductsIndex = () => {
             defaultChecked={searchParams.get("order") === "descending"}
             onChange={updateParams}
           />
+          Descending
         </label>
       </div>
 
