@@ -3,6 +3,7 @@ import React, { lazy, useState } from "react";
 import { BrowserRouter as Router, Navigate, useRoutes } from "react-router-dom";
 import Loadable from "./Common/Loadable";
 import Nav from "./Common/Nav";
+import ScrollToTop from "./Common/ScrollToTop";
 
 const Products = Loadable(lazy(() => import("./Products/Products")));
 const Admin = Loadable(lazy(() => import("./Admin/Admin")));
@@ -44,6 +45,7 @@ const AppWrapper = () => {
   return (
     <div className={AppStyles}>
       <Router>
+        <ScrollToTop />
         <div className="Container">
           <Nav />
           <App />
